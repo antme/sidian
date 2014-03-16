@@ -1,5 +1,10 @@
 package com.sidian.controller;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.sidian.bean.TDefSku;
+import com.sidian.bean.TFitting;
 import com.sidian.bean.TSysUser;
 import com.sidian.exception.ResponseException;
 import com.sidian.service.IApiService;
@@ -57,6 +63,20 @@ public class ApiController extends AbstractController {
 		}
 
 		apiService.checkSku(sku);
+
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("checkedDateTime", new Date().getTime());
+		responseWithData(result, request, response);
+
+	}
+	
+	@RequestMapping("/fittings/add.do")
+	public void addFittings(HttpServletRequest request, HttpServletResponse response) {
+
+		List<TFitting> fittings =  parserListJsonParameters(request, false, TFitting.class, "list");
+
+		apiService.addFittings(fittings);
+
 		responseWithData(null, request, response);
 
 	}

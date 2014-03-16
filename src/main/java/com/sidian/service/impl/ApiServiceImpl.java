@@ -8,9 +8,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sidian.bean.ListEntity;
 import com.sidian.bean.TDefSku;
 import com.sidian.bean.TDefStore;
+import com.sidian.bean.TFitting;
 import com.sidian.bean.TSysUser;
 import com.sidian.dao.IMyBatisDao;
 import com.sidian.exception.ResponseException;
@@ -62,5 +62,9 @@ public class ApiServiceImpl implements IApiService {
 		if (count == 0) {
 			throw new ResponseException("条形码不存在");
 		}
+	}
+	
+	public void addFittings(List<TFitting> fittings){
+		
 	}
 }
