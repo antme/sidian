@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sidian.dao.IMyBatisDao">
+
+	<resultMap type="map" id="map">
+		
+	</resultMap>
+
+	<resultMap type="entity" id="entity">
+	</resultMap>
+	<parameterMap type="String" id="string"></parameterMap>
+
+
+	<select id="countBySql" resultType="int">
+	    ${_parameter}
+	</select>
+
+
+	<select id="listBySql" resultMap="map" parameterMap="string">
+		${_parameter}
+	</select>
+
+
+	<select id="findOneByID" resultMap="map">
+		select * from ${table} where
+		id=#{id}
+	</select>
+
+	<select id="findOneByQuery" resultMap="map">
+		select
+		<if test="limitColumns!=null">
+			${limitColumns}
+		</if>
+		<if test="limitColumns==null">
+			*
+		</if>
+		from ${table} where ${queryStr} limit 0,1
+	</select>
+
+	<insert id="insert">
+		insert into ${table}(${insertColumns})
+		values(${insertColumnsExp})
+	</insert>
+
+	<update id="updateById">
+		update ${table} set
+		${updateColumns}
+		where id=#{id}
+	</update>
+
+	
+
+</mapper>
