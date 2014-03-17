@@ -1,6 +1,5 @@
 package com.sidian.bean;
 
-import java.util.Date;
 
 public class TFitting extends BaseEntity {
 
@@ -31,25 +30,25 @@ public class TFitting extends BaseEntity {
 	// 意见
 	private String feedBack;
 
-	// 选项1价格
+	// 选项1价格, 0, 1 
 	private int isPriceOk = 0;
 
-	// 选项2颜色
+	// 选项2颜色, 0, 1 
 	private int isColorOk = 0;
 
-	// 选项3尺码
+	// 选项3尺码, 0, 1 
 	private int isSizeOk = 0;
 
-	// 选项4搭配
+	// 选项4搭配, 0, 1 
 	private int isSuitable = 0;
 
-	// 选项5款式
+	// 选项5款式, 0, 1 
 	private int isStyleOk = 0;
 
-	// 选项6其它
+	// 选项6其它, 0, 1 
 	private int isOtherOk = 0;
 	
-	// 是否推荐
+	// 是否推荐, 0, 1 
 	private int isRecommend = 0;
 	
 	// 添加试衣记录的用户名
