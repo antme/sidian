@@ -38,8 +38,7 @@
 	</select>
 
 	<insert id="insert">
-		insert into ${table}(${insertColumns})
-		values(${insertColumnsExp})
+		${_parameter}
 	</insert>
 
 	<update id="updateById">

@@ -36,7 +36,8 @@ public class ApiServiceImpl implements IApiService {
 	}
 
 	public void login(TSysUser user) {
-		String sql = "SELECT COUNT(*) as count FROM [sidiandemo].[dbo].[TSysUser] AS a WHERE a.UserName='" + user.getUserName() + "' and a.Password='" + user.getPassword() + "';";
+		String sql = "SELECT COUNT(*) as count FROM [sidiandemo].[dbo].[试穿用户表] AS a WHERE a.UserName='" + user.getUserName() + "' and a.Password='" + user.getPassword()
+		        + "' and a.Store='" + user.getStore() + "';";
 		int count = dao.countBySql(sql);
 
 		if (count == 0) {
@@ -56,15 +57,60 @@ public class ApiServiceImpl implements IApiService {
 
 	}
 
-	public void checkSku(TDefSku sku) {
-		String sql = "SELECT COUNT(*) as count FROM [sidiandemo].[dbo].[TDefSku] AS a WHERE a.Sku='" + sku.getSku() + "';";
-		int count = dao.countBySql(sql);
-		if (count == 0) {
+	public TDefSku checkSku(TDefSku sku) {
+
+		String sql = "SELECT a.Sku, a.PName, b.Style, b.StyleName, b.Attrib22 as isStarProduct FROM [sidiandemo].[dbo].[TDefSku] AS a left join  [sidiandemo].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='" + sku.getSku() + "';";
+		List<Map<String, Object>> results = dao.listBySql(sql);
+		
+		
+		if(results.isEmpty()){
 			throw new ResponseException("条形码不存在");
 		}
+
+		return (TDefSku) ApiUtil.toEntity(results.get(0), TDefSku.class);
+	
 	}
 	
-	public void addFittings(List<TFitting> fittings){
+	public int addFittings(List<TFitting> fittings){
+		String sql = "INSERT INTO [sidiandemo].[dbo].[试穿数据表](试穿编号,Store,试穿日期,试穿时间,客人编号,年龄,条码,是否成交,意见,选项1价格,选项2颜色,选项3尺码,选项4搭配,选项5款式,选项6其它,UserName,是否推荐) VALUES ";
 		
+		if (ApiUtil.isEmpty(fittings)) {
+			throw new ResponseException("试衣记录不能为空");
+		}
+
+		int i = 0;
+		String items = "";
+		for(TFitting fitting: fittings){
+			
+			String item = "('" + fitting.getFittingCode() + "'," 
+					+  "'" + fitting.getStore() + "'," 
+					+  "'" + fitting.getFittingDate() + "',"
+					+  "'" + fitting.getFittingTime() + "',"
+					+  "'" + fitting.getCustomerCode() + "',"
+					+ fitting.getCustomerAge() + ","
+					+  "'" + fitting.getSku() + "',"
+					+ fitting.getIsSaled() + ","
+					+ "'"  + fitting.getFeedBack() + "',"
+					+ fitting.getIsPriceOk() + ","
+					+ fitting.getIsColorOk() + ","
+					+ fitting.getIsSizeOk() + ","
+					+ fitting.getIsSuitable() + ","
+					+ fitting.getIsStyleOk() + ","
+					+ fitting.getIsOtherOk() + ","
+					+  "'" + fitting.getUserName() + "',"
+					+ fitting.getIsRecommend() + ")"; 
+			
+			i++;
+			if (i == fittings.size()) {
+				items = items + item + ";";
+			} else {
+				items = items + item + ",";
+			}
+		}
+		
+		sql = sql + items;
+		
+		System.out.println(sql);
+		return this.dao.insert(sql);
 	}
 }

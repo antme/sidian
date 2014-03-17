@@ -62,20 +62,23 @@ public class ApiController extends AbstractController {
 			throw new ResponseException("查询的条形码不能为空");
 		}
 
-		apiService.checkSku(sku);
+		sku = apiService.checkSku(sku);
+		sku.setCheckedDateTime(new Date().getTime());
 
-		Map<String, Object> result = new HashMap<String, Object>();
-		result.put("checkedDateTime", new Date().getTime());
-		responseWithData(result, request, response);
+		responseWithData(sku.toMap(), request, response);
 
 	}
 	
 	@RequestMapping("/fittings/add.do")
 	public void addFittings(HttpServletRequest request, HttpServletResponse response) {
 
-		List<TFitting> fittings =  parserListJsonParameters(request, false, TFitting.class, "list");
+		List<TFitting> fittings = parserListJsonParameters(request, false, TFitting.class, "data");
 
-		apiService.addFittings(fittings);
+		int rows = apiService.addFittings(fittings);
+
+		if (rows == 0) {
+			throw new ResponseException("上传失败");
+		}
 
 		responseWithData(null, request, response);
 

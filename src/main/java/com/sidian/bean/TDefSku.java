@@ -4,8 +4,8 @@ public class TDefSku extends BaseEntity {
 
 	// 条码
 	private String Sku;
-	
-	//名字
+
+	// 名字
 	private String PName;
 
 	// 外部条形码
@@ -14,36 +14,78 @@ public class TDefSku extends BaseEntity {
 	// 打印条码
 	private String PrintSku;
 
+	// 是否明星产品
+	private boolean isStarProduct;
+
+	// 样式名
+	private String StyleName;
+
+	private String Style;
+	
+	private long checkedDateTime;
+
 	public String getSku() {
-    	return Sku;
-    }
+		return Sku;
+	}
 
 	public void setSku(String sku) {
-    	Sku = sku;
-    }
+		Sku = sku;
+	}
 
 	public String getSkuOut() {
-    	return SkuOut;
-    }
+		return SkuOut;
+	}
 
 	public void setSkuOut(String skuOut) {
-    	SkuOut = skuOut;
-    }
+		SkuOut = skuOut;
+	}
 
 	public String getPrintSku() {
-    	return PrintSku;
-    }
+		return PrintSku;
+	}
 
 	public void setPrintSku(String printSku) {
-    	PrintSku = printSku;
-    }
+		PrintSku = printSku;
+	}
 
 	public String getPName() {
-    	return PName;
-    }
+		return PName;
+	}
 
 	public void setPName(String pName) {
-    	PName = pName;
+		PName = pName;
+	}
+
+	public boolean isStarProduct() {
+		return isStarProduct;
+	}
+
+	public void setStarProduct(boolean isStarProduct) {
+		this.isStarProduct = isStarProduct;
+	}
+
+	public String getStyleName() {
+		return StyleName;
+	}
+
+	public void setStyleName(String styleName) {
+		StyleName = styleName;
+	}
+
+	public String getStyle() {
+		return Style;
+	}
+
+	public void setStyle(String style) {
+		Style = style;
+	}
+
+	public long getCheckedDateTime() {
+    	return checkedDateTime;
+    }
+
+	public void setCheckedDateTime(long checkedDateTime) {
+    	this.checkedDateTime = checkedDateTime;
     }
 	
 	

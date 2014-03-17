@@ -6,6 +6,9 @@ public class TSysUser extends BaseEntity {
 	private String UserName;
 	
 	private String Password;
+	
+	private String Store;
+	
 
 	public String getUserName() {
     	return UserName;
@@ -21,6 +24,14 @@ public class TSysUser extends BaseEntity {
 
 	public void setPassword(String password) {
     	Password = password;
+    }
+
+	public String getStore() {
+    	return Store;
+    }
+
+	public void setStore(String store) {
+    	Store = store;
     }
 	
 	

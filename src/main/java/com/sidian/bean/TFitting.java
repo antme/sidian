@@ -11,7 +11,7 @@ public class TFitting extends BaseEntity {
 	private String Store;
 
 	// 试穿日期 yyyy-mm-dd
-	private Date fittingDate;
+	private String fittingDate;
 
 	// 试穿时间 hh:mm:ss
 	private String fittingTime;
@@ -20,34 +20,40 @@ public class TFitting extends BaseEntity {
 	private String customerCode;
 
 	// 年龄
-	private int customerAge;
+	private int customerAge = 0;
 
 	// 条码
-	private int Sku;
+	private String Sku;
 
 	// 是否成交
-	private Boolean isSaled;
+	private int isSaled = 0;
 
 	// 意见
 	private String feedBack;
 
 	// 选项1价格
-	private Boolean isPriceOk;
+	private int isPriceOk = 0;
 
 	// 选项2颜色
-	private Boolean isColorOk;
+	private int isColorOk = 0;
 
 	// 选项3尺码
-	private Boolean isSizeOk;
+	private int isSizeOk = 0;
 
 	// 选项4搭配
-	private Boolean isSuitable;
+	private int isSuitable = 0;
 
 	// 选项5款式
-	private Boolean isStyleOk;
+	private int isStyleOk = 0;
 
 	// 选项6其它
-	private Boolean isOtherOk;
+	private int isOtherOk = 0;
+	
+	// 是否推荐
+	private int isRecommend = 0;
+	
+	// 添加试衣记录的用户名
+	private String UserName;
 
 	public String getFittingCode() {
 		return fittingCode;
@@ -58,6 +64,9 @@ public class TFitting extends BaseEntity {
 	}
 
 	public String getStore() {
+		if(Store == null){
+			return "";
+		}
 		return Store;
 	}
 
@@ -65,11 +74,11 @@ public class TFitting extends BaseEntity {
 		Store = store;
 	}
 
-	public Date getFittingDate() {
+	public String getFittingDate() {
 		return fittingDate;
 	}
 
-	public void setFittingDate(Date fittingDate) {
+	public void setFittingDate(String fittingDate) {
 		this.fittingDate = fittingDate;
 	}
 
@@ -82,6 +91,9 @@ public class TFitting extends BaseEntity {
 	}
 
 	public String getCustomerCode() {
+		if(customerCode == null){
+			return "";
+		}
 		return customerCode;
 	}
 
@@ -97,19 +109,20 @@ public class TFitting extends BaseEntity {
 		this.customerAge = customerAge;
 	}
 
-	public int getSku() {
-		return Sku;
-	}
 
-	public void setSku(int sku) {
-		Sku = sku;
-	}
+	public String getSku() {
+    	return Sku;
+    }
 
-	public Boolean getIsSaled() {
+	public void setSku(String sku) {
+    	Sku = sku;
+    }
+
+	public int getIsSaled() {
 		return isSaled;
 	}
 
-	public void setIsSaled(Boolean isSaled) {
+	public void setIsSaled(int isSaled) {
 		this.isSaled = isSaled;
 	}
 
@@ -121,52 +134,71 @@ public class TFitting extends BaseEntity {
 		this.feedBack = customerFeedBack;
 	}
 
-	public Boolean getIsPriceOk() {
+	public int getIsPriceOk() {
 		return isPriceOk;
 	}
 
-	public void setIsPriceOk(Boolean isPriceOk) {
+	public void setIsPriceOk(int isPriceOk) {
 		this.isPriceOk = isPriceOk;
 	}
 
-	public Boolean getIsColorOk() {
+	public int getIsColorOk() {
 		return isColorOk;
 	}
 
-	public void setIsColorOk(Boolean isColorOk) {
+	public void setIsColorOk(int isColorOk) {
 		this.isColorOk = isColorOk;
 	}
 
-	public Boolean getIsSizeOk() {
+	public int getIsSizeOk() {
 		return isSizeOk;
 	}
 
-	public void setIsSizeOk(Boolean isSizeOk) {
+	public void setIsSizeOk(int isSizeOk) {
 		this.isSizeOk = isSizeOk;
 	}
 
-	public Boolean getIsSuitable() {
+	public int getIsSuitable() {
 		return isSuitable;
 	}
 
-	public void setIsSuitable(Boolean isSuitable) {
+	public void setIsSuitable(int isSuitable) {
 		this.isSuitable = isSuitable;
 	}
 
-	public Boolean getIsStyleOk() {
+	public int getIsStyleOk() {
 		return isStyleOk;
 	}
 
-	public void setIsStyleOk(Boolean isStyleOk) {
+	public void setIsStyleOk(int isStyleOk) {
 		this.isStyleOk = isStyleOk;
 	}
 
-	public Boolean getIsOtherOk() {
+	public int getIsOtherOk() {
 		return isOtherOk;
 	}
 
-	public void setIsOtherOk(Boolean isOtherOk) {
+	public void setIsOtherOk(int isOtherOk) {
 		this.isOtherOk = isOtherOk;
 	}
+
+	public int getIsRecommend() {
+    	return isRecommend;
+    }
+
+	public void setIsRecommend(int isRecommend) {
+    	this.isRecommend = isRecommend;
+    }
+
+	public String getUserName() {
+    	return UserName;
+    }
+
+	public void setUserName(String userName) {
+    	UserName = userName;
+    }
+	
+	
+	
 
 }

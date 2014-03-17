@@ -14,10 +14,10 @@ public interface IApiService {
 
 	public List<TDefStore> listStore();
 
-	public void checkSku(TDefSku sku);
+	public TDefSku checkSku(TDefSku sku);
 
 	public List<TDefSku> listSku();
 
-	public void addFittings(List<TFitting> fittings);
+	public int addFittings(List<TFitting> fittings);
 
 }
