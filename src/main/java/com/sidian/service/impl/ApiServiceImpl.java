@@ -46,13 +46,13 @@ public class ApiServiceImpl implements IApiService {
 
 	}
 	public List<TDefStore> listStore() {
-		List<Map<String, Object>> results = dao.listBySql("SELECT  TOP 50  [ID],[Store],[StoreName] FROM [sidiandemo].[dbo].[TDefStore]");
+		List<Map<String, Object>> results = dao.listBySql("SELECT [ID],[Store],[StoreName] FROM [sidiandemo].[dbo].[TDefStore]");
 		return ApiUtil.toJsonList(results, TDefStore.class, null);
 	}
 	
 	public List<TDefSku> listSku(){
 		
-		List<Map<String, Object>> results = dao.listBySql("SELECT TOP 50 [Sku], [PName] FROM [sidiandemo].[dbo].[TDefSku]");
+		List<Map<String, Object>> results = dao.listBySql("SELECT [Sku], [PName] FROM [sidiandemo].[dbo].[TDefSku]");
 		return ApiUtil.toJsonList(results, TDefSku.class, null);
 
 	}
