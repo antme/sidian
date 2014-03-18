@@ -106,6 +106,12 @@ public abstract class AbstractController {
 		if (data == null) {
 			data = new HashMap<String, Object>();
 		}
+		
+		if(data.get("data") == null){
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("data", data);
+			data = result;
+		}
 		data.put("code", status);
 
 		response.setContentType("text/plain;charset=UTF-8");

@@ -39,29 +39,29 @@ public class BaseTestCase extends TestCase {
 	public void testEmpty() throws IOException, InterruptedException {
 		
 		TSysUser user = new TSysUser();
-		user.setStore("BBB003");
-		user.setUserName("徐敏");
-		user.setPassword("123456");
+		user.setStore("BBB005");
+		user.setUserName("林映霞");
+		user.setPassword("111111");
 
-//	    api.login(user);
+	    api.login(user);
 	    
 	    TDefSku sku = new TDefSku();
 	    sku.setSku("01109101037838");
 //	    api.checkSku(sku);
 	    
-	    List<TFitting> fittings = new ArrayList<TFitting>();
-	    for(int i=0; i<2; i++){
-	    	TFitting fitting = new TFitting();
-	    	fitting.setCustomerCode("00" + i);
-	    	fitting.setUserName("test");
-	    	fitting.setFittingDate(DateUtil.getDateString(new Date()));
-	    	fitting.setFittingTime("20:32:52");
-	    	fitting.setSku("00000001");
-	    	fitting.setStore("00" + i);
-	    	fittings.add(fitting);
-	    	
-	    }
-	    System.out.println(api.addFittings(fittings));
+//	    List<TFitting> fittings = new ArrayList<TFitting>();
+//	    for(int i=0; i<2; i++){
+//	    	TFitting fitting = new TFitting();
+//	    	fitting.setCustomerCode("00" + i);
+//	    	fitting.setUserName("test");
+//	    	fitting.setFittingDate(DateUtil.getDateString(new Date()));
+//	    	fitting.setFittingTime("20:32:52");
+//	    	fitting.setSku("00000001");
+//	    	fitting.setStore("00" + i);
+//	    	fittings.add(fitting);
+//	    	
+//	    }
+//	    System.out.println(api.addFittings(fittings));
 	
 	}
 
