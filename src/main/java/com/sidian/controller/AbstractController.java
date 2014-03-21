@@ -41,17 +41,11 @@ public abstract class AbstractController {
 		Enumeration<?> parameterNames = request.getParameterNames();
 		while (parameterNames.hasMoreElements()) {
 			String pName = parameterNames.nextElement().toString();
-
 			parametersMap.put(pName, request.getParameter(pName).trim());
-
 		}
-
 		if (!emptyParameter && (parametersMap == null || parametersMap.isEmpty())) {
 			throw new ResponseException("参数不能为空");
 		}
-
-		parametersMap.remove("page");
-
 		return parametersMap;
 	}
 

@@ -10,7 +10,7 @@ import com.sidian.bean.TSysUser;
 
 public interface IApiService {
 
-	public void login(TSysUser user);
+	public TSysUser login(TSysUser user);
 
 	public List<TDefStore> listStore();
 

@@ -59,7 +59,6 @@ public class ApiUtil {
 
 		return false;
 	}
-	
 
 	public static Integer getInteger(Object value, int defaultValue, boolean log) {
 		Integer result = null;
@@ -73,8 +72,8 @@ public class ApiUtil {
 				try {
 					result = Integer.parseInt(String.valueOf(value));
 				} catch (NumberFormatException e1) {
-					
-					if(log){
+
+					if (log) {
 						logger.error(String.format("Integer parameter illegal [%s]", value));
 					}
 				}
@@ -127,8 +126,6 @@ public class ApiUtil {
 			result = defaultValue;
 		return result;
 	}
-
-
 
 	public static String join(String[] array) {
 		return join(array, ",");
@@ -195,8 +192,6 @@ public class ApiUtil {
 		}
 		return result.toString();
 	}
-	
-	
 
 	static JsonSerializer<Date> ser = new JsonSerializer<Date>() {
 		@Override
@@ -211,22 +206,19 @@ public class ApiUtil {
 			return DateUtil.getDateTime(json.getAsString());
 		}
 	};
-	
-	
-	
 
 	public static <T extends BaseEntity> BaseEntity toEntity(Map<String, Object> data, Class<T> classzz) {
 		String json = new GsonBuilder().registerTypeAdapter(Date.class, ser).setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(data);
 		return new GsonBuilder().registerTypeAdapter(Date.class, deser).create().fromJson(json, classzz);
 
 	}
-	
+
 	public static <T extends BaseEntity> BaseEntity toEntity(String data, Class<T> classzz) {
 		return new GsonBuilder().registerTypeAdapter(Date.class, deser).create().fromJson(data, classzz);
 
 	}
 
-	public static <T extends BaseEntity> List<T> toJsonList(Object params, Class<T> clz,  String key) {
+	public static <T extends BaseEntity> List<T> toJsonList(Object params, Class<T> clz, String key) {
 
 		List<T> results = new ArrayList<T>();
 
@@ -234,16 +226,25 @@ public class ApiUtil {
 			Map<String, Object> result = (Map<String, Object>) params;
 			if (!ApiUtil.isEmpty(result.get(key))) {
 
-				List<Map<String, Object>> list = (List<Map<String, Object>>) result.get(key);
+				if (result.get(key) instanceof List) {
+					List<Map<String, Object>> list = (List<Map<String, Object>>) result.get(key);
 
-				for (Map<String, Object> obj : list) {
-					updateJsonFieldWithType(obj, clz);
-					results.add((T) ApiUtil.toEntity(obj, clz));
+					for (Map<String, Object> obj : list) {
+						updateJsonFieldWithType(obj, clz);
+						results.add((T) ApiUtil.toEntity(obj, clz));
+					}
+				} else if (result.get(key) instanceof String) {
+
+					List<Map<String, Object>> listMap = (List<Map<String, Object>>) new GsonBuilder().registerTypeAdapter(Date.class, deser).create()
+					        .fromJson(result.get(key).toString(), List.class);
+					for (Map<String, Object> map : listMap) {
+						results.add((T) ApiUtil.toEntity(map, clz));
+					}
 				}
 
 			}
-		}else if(params instanceof List){
-			
+		} else if (params instanceof List) {
+
 			List<Map<String, Object>> dataList = (List<Map<String, Object>>) params;
 
 			for (Map<String, Object> obj : dataList) {
@@ -253,31 +254,27 @@ public class ApiUtil {
 		}
 		return results;
 
-	
-
 	}
-	
-	public static String toJson(BaseEntity entity){
+
+	public static String toJson(BaseEntity entity) {
 		return new GsonBuilder().registerTypeAdapter(Date.class, ser).create().toJson(entity);
 	}
-	
-	public static String toJson(Object data){
+
+	public static String toJson(Object data) {
 		return new GsonBuilder().registerTypeAdapter(Date.class, ser).create().toJson(data);
 	}
-	
-	public static Map<String, Object> toMap(BaseEntity entity){
+
+	public static Map<String, Object> toMap(BaseEntity entity) {
 		return new Gson().fromJson(entity.toString(), HashMap.class);
 	}
-	
-	public static Map<String, Object> toMap(String jsonStr){
+
+	public static Map<String, Object> toMap(String jsonStr) {
 		return new Gson().fromJson(jsonStr, HashMap.class);
 	}
-	public static String toString(Map<String, Object> data){
+
+	public static String toString(Map<String, Object> data) {
 		return new Gson().toJson(data);
 	}
-	
-	
-
 
 	public static <T extends BaseEntity> void updateJsonFieldWithType(Map<String, Object> params, Class<T> clz) {
 		Field[] fields = clz.getFields();
@@ -295,20 +292,16 @@ public class ApiUtil {
 
 	}
 
-
 	public static boolean isValid(Object param) {
 		return !isEmpty(param);
 	}
 
-
-	/**判断字符串是否为数字和字母组成*/
-	public static boolean isCharNum(String str){
-		if(str != null){
+	/** 判断字符串是否为数字和字母组成 */
+	public static boolean isCharNum(String str) {
+		if (str != null) {
 			return str.matches("^[A-Za-z0-9]+$");
 		}
 		return false;
 	}
-	
-
 
 }

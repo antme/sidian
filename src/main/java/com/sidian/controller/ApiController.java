@@ -34,8 +34,8 @@ public class ApiController extends AbstractController {
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		TSysUser user = (TSysUser) parserParametersToEntity(request, false, TSysUser.class);
 
-		apiService.login(user);
-		responseWithData(null, request, response);
+		
+		responseWithData(apiService.login(user).toMap(), request, response);
 
 	}
 

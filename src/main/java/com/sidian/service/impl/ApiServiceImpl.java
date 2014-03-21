@@ -35,14 +35,15 @@ public class ApiServiceImpl implements IApiService {
 		System.out.println(results);
 	}
 
-	public void login(TSysUser user) {
-		String sql = "SELECT COUNT(*) as count FROM [sidiandemo].[dbo].[试穿用户表] AS a WHERE a.UserName='" + user.getUserName() + "' and a.Password='" + user.getPassword()
+	public TSysUser login(TSysUser user) {
+		String sql = "SELECT [UserId],[Store],[UserName] FROM [sidiandemo].[dbo].[试穿用户表] AS a WHERE a.UserName='" + user.getUserName() + "' and a.Password='" + user.getPassword()
 		        + "' and a.Store='" + user.getStore() + "';";
-		int count = dao.countBySql(sql);
 
-		if (count == 0) {
+		List<Map<String, Object>> results = dao.listBySql(sql);
+		if (results.size() == 0) {
 			throw new ResponseException("用户名或则密码错误");
 		}
+		return (TSysUser) ApiUtil.toEntity(results.get(0), TSysUser.class);
 
 	}
 	public List<TDefStore> listStore() {
