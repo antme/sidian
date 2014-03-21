@@ -221,7 +221,7 @@ public class ApiUtil {
 	public static <T extends BaseEntity> List<T> toJsonList(Object params, Class<T> clz, String key) {
 
 		List<T> results = new ArrayList<T>();
-
+		System.out.println(params);
 		if (params instanceof Map) {
 			Map<String, Object> result = (Map<String, Object>) params;
 			if (!ApiUtil.isEmpty(result.get(key))) {
