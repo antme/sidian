@@ -23,6 +23,9 @@ public class TDefSku extends BaseEntity {
 	private String Style;
 	
 	private long checkedDateTime;
+	
+	//备注
+	private String remark;
 
 	public String getSku() {
 		return Sku;
@@ -86,6 +89,14 @@ public class TDefSku extends BaseEntity {
 
 	public void setCheckedDateTime(long checkedDateTime) {
     	this.checkedDateTime = checkedDateTime;
+    }
+
+	public String getRemark() {
+    	return remark;
+    }
+
+	public void setRemark(String remark) {
+    	this.remark = remark;
     }
 	
 	

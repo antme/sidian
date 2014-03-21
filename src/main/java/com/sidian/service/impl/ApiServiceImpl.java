@@ -60,7 +60,7 @@ public class ApiServiceImpl implements IApiService {
 
 	public TDefSku checkSku(TDefSku sku) {
 
-		String sql = "SELECT a.Sku, a.PName, b.Style, b.StyleName, b.Attrib22 as isStarProduct FROM [sidiandemo].[dbo].[TDefSku] AS a left join  [sidiandemo].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='" + sku.getSku() + "';";
+		String sql = "SELECT a.Sku, a.PName, b.Style, b.StyleName, b.Attrib22 as isStarProduct, b.Attrib37 as remark FROM [sidiandemo].[dbo].[TDefSku] AS a left join  [sidiandemo].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='" + sku.getSku() + "';";
 		List<Map<String, Object>> results = dao.listBySql(sql);
 		
 		
