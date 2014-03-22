@@ -3,7 +3,9 @@ package com.ecomm.dao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
@@ -12,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import com.google.gson.Gson;
 import com.sidian.bean.TDefSku;
 import com.sidian.bean.TFitting;
 import com.sidian.bean.TSysUser;
@@ -43,25 +46,29 @@ public class BaseTestCase extends TestCase {
 		user.setUserName("林映霞");
 		user.setPassword("111111");
 
-	    api.login(user);
+//	    api.login(user);
 	    
 	    TDefSku sku = new TDefSku();
 	    sku.setSku("01109101037838");
 //	    api.checkSku(sku);
 	    
-//	    List<TFitting> fittings = new ArrayList<TFitting>();
-//	    for(int i=0; i<2; i++){
-//	    	TFitting fitting = new TFitting();
-//	    	fitting.setCustomerCode("00" + i);
-//	    	fitting.setUserName("test");
-//	    	fitting.setFittingDate(DateUtil.getDateString(new Date()));
-//	    	fitting.setFittingTime("20:32:52");
-//	    	fitting.setSku("00000001");
-//	    	fitting.setStore("00" + i);
-//	    	fittings.add(fitting);
-//	    	
-//	    }
-//	    System.out.println(api.addFittings(fittings));
+	    List<TFitting> fittings = new ArrayList<TFitting>();
+	    for(int i=0; i<2; i++){
+	    	TFitting fitting = new TFitting();
+	    	fitting.setFittingCode("" + i);
+	    	fitting.setCustomerCode("00" + i);
+	    	fitting.setUserName("test" + i);
+	    	fitting.setFittingDate(DateUtil.getDateString(new Date()));
+	    	fitting.setFittingTime("20:32:52");
+	    	fitting.setSku("00000001");
+	    	fitting.setStore("00" + i);
+	    	fittings.add(fitting);
+	    	
+	    }
+	    
+	    
+
+	    System.out.println(api.addFittings(fittings));
 	
 	}
 

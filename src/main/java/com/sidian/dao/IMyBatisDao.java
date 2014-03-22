@@ -11,5 +11,5 @@ public interface IMyBatisDao {
 	
 	public int countBySql(String sql);
 	
-
+	public void update(String sql);
 }

@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.sidian.bean.BaseEntity;
-import com.sidian.bean.ListEntity;
 import com.sidian.exception.ResponseException;
 import com.sidian.util.ApiUtil;
 
@@ -57,18 +56,6 @@ public abstract class AbstractController {
 		responseMsg(data, 1, request, response, msgKey);
 	}
 
-	protected <T extends BaseEntity> void responseWithDataPagnation(ListEntity<T> listBean, Map<String, Object> results, HttpServletRequest request, HttpServletResponse response) {
-		if (results == null) {
-			results = new HashMap<String, Object>();
-		}
-		if (listBean != null) {
-			results.put("total", listBean.getPagnation().getTotal());
-			results.put("data", listBean.getEntityList());
-			responseMsg(results, 1, request, response, null);
-		} else {
-			responseMsg(null, 1, request, response, null);
-		}
-	}
 
 	protected <T extends BaseEntity> void responseWithListDataForApp(List<T> listBean, HttpServletRequest request, HttpServletResponse response) {
 		if (listBean != null) {

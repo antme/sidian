@@ -1,5 +1,6 @@
 package com.sidian.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -78,10 +79,25 @@ public class ApiServiceImpl implements IApiService {
 		if (ApiUtil.isEmpty(fittings)) {
 			throw new ResponseException("试衣记录不能为空");
 		}
-
+		
+		List<TFitting> insertFittings = new ArrayList<TFitting>();
+		List<TFitting> updateFittings = new ArrayList<TFitting>();
+		
+		for(TFitting fitting: fittings){
+			String selectsql = "SELECT a.试穿编号  FROM [sidiandemo].[dbo].[试穿数据表] AS a WHERE a.试穿编号='" + fitting.getFittingCode()  + "';";
+			List<Map<String, Object>> results = dao.listBySql(selectsql);
+			
+			if(results.size() > 0){
+				updateFittings.add(fitting);
+			}else{
+				insertFittings.add(fitting);
+			}
+			
+		}
+		
 		int i = 0;
 		String items = "";
-		for(TFitting fitting: fittings){
+		for(TFitting fitting: insertFittings){
 			
 			String item = "('" + fitting.getFittingCode() + "'," 
 					+  "'" + fitting.getStore() + "'," 
@@ -109,9 +125,40 @@ public class ApiServiceImpl implements IApiService {
 			}
 		}
 		
+		
+		if(insertFittings.size() > 0){
 		sql = sql + items;
 		
-		System.out.println(sql);
-		return this.dao.insert(sql);
+		this.dao.insert(sql);
+		}
+
+		for(TFitting fitting: updateFittings){
+					
+			 String updaetSql =  "UPDATE [sidiandemo].[dbo].[试穿数据表] SET "
+					 		+  "试穿编号='" + fitting.getFittingCode() + "'," 
+							+  "Store='" + fitting.getStore() + "'," 
+							+  "试穿日期='" + fitting.getFittingDate() + "',"
+							+  "试穿时间='" + fitting.getFittingTime() + "',"
+							+  "客人编号='" + fitting.getCustomerCode() + "',"
+							+  "年龄=" + fitting.getCustomerAge() + ","
+							+  "条码='" + fitting.getSku() + "',"
+							+  "是否成交=" + fitting.getIsSaled() + ","
+							+  "意见='" + fitting.getFeedBack() + "',"
+							+  "选项1价格=" + fitting.getIsPriceOk() + ","
+							+  "选项2颜色=" + fitting.getIsColorOk() + ","
+							+  "选项3尺码=" + fitting.getIsSizeOk() + ","
+							+  "选项4搭配=" + fitting.getIsSuitable() + ","
+							+  "选项5款式=" + fitting.getIsStyleOk() + ","
+							+  "选项6其它=" + fitting.getIsOtherOk() + ","
+							+  "UserName='" + fitting.getUserName() + "',"
+							+  "是否推荐=" + fitting.getIsRecommend() + ""
+							+ " WHERE 试穿编号='" + fitting.getFittingCode()  + "';"; 
+			 
+			 dao.update(updaetSql);
+						
+		}
+		
+		return 0;
+		
 	}
 }

@@ -24,17 +24,7 @@
 		<property name="username" value="dylan" />
 		<property name="password" value="abc123_" />
 	</bean>
-	
-	<bean
-		class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="targetClass" value="com.sidian.cfg.CFGManager" />
-		<property name="targetMethod" value="setConfiguraion"></property>
-		<property name="arguments">
-			<list>
-				<value>config.properties</value>
-			</list>
-		</property>
-	</bean>
+
 	<!-- 配置SqlSessionFactoryBean -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="configLocation" value="classpath:MyBatis.xml"></property>

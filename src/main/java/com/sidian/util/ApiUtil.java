@@ -1,11 +1,5 @@
 package com.sidian.util;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -13,7 +7,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -27,8 +20,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.sidian.annotation.FloatColumn;
-import com.sidian.annotation.IntegerColumn;
 import com.sidian.bean.BaseEntity;
 import com.sidian.exception.ResponseException;
 
@@ -106,92 +97,9 @@ public class ApiUtil {
 		return result;
 	}
 
-	public static Double getDouble(Object value, Double defaultValue) {
-		Double result = null;
 
-		if (isEmpty(value)) {
-			result = defaultValue;
-		} else {
-			try {
-				result = Double.parseDouble(String.valueOf(value));
-			} catch (NumberFormatException e) {
 
-				logger.error(String.format("Integer parameter illegal [%s]", value), e);
-				throw new ResponseException("ILEGAL_PARAMTERS");
 
-			}
-
-		}
-		if (result == null)
-			result = defaultValue;
-		return result;
-	}
-
-	public static String join(String[] array) {
-		return join(array, ",");
-	}
-
-	public static String join(List<String> array) {
-		return join((String[]) array.toArray(), ",");
-	}
-
-	public static String join(Set<String> array) {
-		return join((String[]) array.toArray(), ",");
-	}
-
-	/**
-	 * Join all the elements of a string array into a single String.
-	 * 
-	 * If the given array empty an empty string will be returned. Null elements
-	 * of the array are allowed and will be treated like empty Strings.
-	 * 
-	 * @param array
-	 *            Array to be joined into a string.
-	 * @param delimiter
-	 *            String to place between array elements.
-	 * @return Concatenation of all the elements of the given array with the the
-	 *         delimiter in between.
-	 * @throws NullPointerException
-	 *             if array or delimiter is null.
-	 * 
-	 * @since ostermillerutils 1.05.00
-	 */
-	public static String join(String[] array, String delimiter) {
-		// Cache the length of the delimiter
-		// has the side effect of throwing a NullPointerException if
-		// the delimiter is null.
-		int delimiterLength = delimiter.length();
-		// Nothing in the array return empty string
-		// has the side effect of throwing a NullPointerException if
-		// the array is null.
-		if (array.length == 0)
-			return "";
-		// Only one thing in the array, return it.
-		if (array.length == 1) {
-			if (array[0] == null)
-				return "";
-			return array[0];
-		}
-		// Make a pass through and determine the size
-		// of the resulting string.
-		int length = 0;
-		for (int i = 0; i < array.length; i++) {
-			if (array[i] != null)
-				length += array[i].length();
-			if (i < array.length - 1)
-				length += delimiterLength;
-		}
-		// Make a second pass through and concatenate everything
-		// into a string buffer.
-		StringBuffer result = new StringBuffer(length);
-		for (int i = 0; i < array.length; i++) {
-			if (array[i] != null)
-				result.append(array[i]);
-			if (i < array.length - 1)
-				result.append(delimiter);
-		}
-		return result.toString();
-	}
 
 	static JsonSerializer<Date> ser = new JsonSerializer<Date>() {
 		@Override
@@ -230,7 +138,6 @@ public class ApiUtil {
 					List<Map<String, Object>> list = (List<Map<String, Object>>) result.get(key);
 
 					for (Map<String, Object> obj : list) {
-						updateJsonFieldWithType(obj, clz);
 						results.add((T) ApiUtil.toEntity(obj, clz));
 					}
 				} else if (result.get(key) instanceof String) {
@@ -248,7 +155,6 @@ public class ApiUtil {
 			List<Map<String, Object>> dataList = (List<Map<String, Object>>) params;
 
 			for (Map<String, Object> obj : dataList) {
-				updateJsonFieldWithType(obj, clz);
 				results.add((T) ApiUtil.toEntity(obj, clz));
 			}
 		}
@@ -276,32 +182,12 @@ public class ApiUtil {
 		return new Gson().toJson(data);
 	}
 
-	public static <T extends BaseEntity> void updateJsonFieldWithType(Map<String, Object> params, Class<T> clz) {
-		Field[] fields = clz.getFields();
-		for (Field field : fields) {
-			if (field.isAnnotationPresent(IntegerColumn.class)) {
-				if (params.get(field.getName()) != null) {
-					params.put(field.getName(), getInteger(params.get(field.getName()), 0, true));
-				}
-			} else if (field.isAnnotationPresent(FloatColumn.class)) {
-				if (params.get(field.getName()) != null) {
-					params.put(field.getName(), getFloat(params.get(field.getName()), 0.0f));
-				}
-			}
-		}
 
-	}
 
 	public static boolean isValid(Object param) {
 		return !isEmpty(param);
 	}
 
-	/** 判断字符串是否为数字和字母组成 */
-	public static boolean isCharNum(String str) {
-		if (str != null) {
-			return str.matches("^[A-Za-z0-9]+$");
-		}
-		return false;
-	}
+	
 
 }

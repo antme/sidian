@@ -1,9 +1,7 @@
 package com.sidian.controller;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -75,10 +73,6 @@ public class ApiController extends AbstractController {
 		List<TFitting> fittings = parserListJsonParameters(request, false, TFitting.class, "data");
 
 		int rows = apiService.addFittings(fittings);
-
-		if (rows == 0) {
-			throw new ResponseException("上传失败");
-		}
 
 		responseWithData(null, request, response);
 

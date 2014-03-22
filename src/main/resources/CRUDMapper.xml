@@ -15,7 +15,10 @@
 	    ${_parameter}
 	</select>
 
-
+    <select id="update" >
+        ${_parameter}
+    </select>
+	
 	<select id="listBySql" resultMap="map" parameterMap="string">
 		${_parameter}
 	</select>
