@@ -26,6 +26,12 @@ public class TDefSku extends BaseEntity {
 	
 	//备注
 	private String remark;
+	
+	
+
+	// 
+	private String Store;
+
 
 	public String getSku() {
 		return Sku;
@@ -98,7 +104,14 @@ public class TDefSku extends BaseEntity {
 	public void setRemark(String remark) {
     	this.remark = remark;
     }
-	
-	
+
+	public String getStore() {
+    	return Store;
+    }
+
+	public void setStore(String store) {
+    	Store = store;
+    }
+
 
 }
