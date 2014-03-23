@@ -1,6 +1,7 @@
 package com.sidian.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,16 +62,45 @@ public class ApiServiceImpl implements IApiService {
 
 	public TDefSku checkSku(TDefSku sku) {
 
-		String sql = "SELECT a.Sku, a.PName, b.Style, b.StyleName, b.Attrib22 as isStarProduct, b.Attrib37 as remark FROM [sidiandemo].[dbo].[TDefSku] AS a left join  [sidiandemo].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='" + sku.getSku() + "';";
+		String store = sku.getStore();
+		String sql = "SELECT a.Sku, a.PName, a.Clr, a.Size, b.Style, b.StyleName, b.Attrib22 as isStarProduct, b.Attrib37 as remark FROM [sidiandemo].[dbo].[TDefSku] AS a left join  [sidiandemo].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='"
+		        + sku.getSku() + "';";
 		List<Map<String, Object>> results = dao.listBySql(sql);
-		
-		
-		if(results.isEmpty()){
+
+		if (results.isEmpty()) {
 			throw new ResponseException("条形码不存在");
 		}
 
-		return (TDefSku) ApiUtil.toEntity(results.get(0), TDefSku.class);
-	
+		sku = (TDefSku) ApiUtil.toEntity(results.get(0), TDefSku.class);
+
+		
+		String sizeSql = "SELECT a.Sku, a.Size, b.SizeName FROM [sidiandemo].[dbo].[TDefSku] AS a left join  [sidiandemo].[dbo].[TDefSize] AS b ON b.Size=a.Size WHERE a.Style='"
+		        + sku.getStyle() + "' and a.Clr ='" + sku.getClr() + "'" + ";";
+		
+		List<Map<String, Object>> skuSizeList = dao.listBySql(sizeSql);
+		
+		System.out.println("===========" + skuSizeList.size());
+		List<TDefSku> skuList = ApiUtil.toJsonList(skuSizeList, TDefSku.class, null);
+
+		Map<String, Object> sizeMap = new HashMap<String, Object>();
+
+		for (TDefSku defsku : skuList) {
+
+			String contSql = "SELECT a.Qty FROM [sidiandemo].[dbo].[TAccStock] AS a WHERE a.Sku='" + defsku.getSku() + "' and a.Store ='" + store + "'" + ";";
+			List<Map<String, Object>> contSqlResults = dao.listBySql(contSql);
+
+			System.out.println("::::::::::::::::::" + contSqlResults.size());
+			if (contSqlResults.size() > 0) {
+				sizeMap.put(defsku.getSizeName(), ApiUtil.getInteger(contSqlResults.get(0).get("Qty"), 0, false));
+			}else{
+				sizeMap.put(defsku.getSizeName(), 0);
+			}
+
+		}
+
+		sku.setSizeMap(sizeMap);
+		return sku;
+
 	}
 	
 	public int addFittings(List<TFitting> fittings){

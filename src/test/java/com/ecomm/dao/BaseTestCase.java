@@ -49,8 +49,10 @@ public class BaseTestCase extends TestCase {
 //	    api.login(user);
 	    
 	    TDefSku sku = new TDefSku();
-	    sku.setSku("01109101037838");
-//	    api.checkSku(sku);
+	    sku.setSku("1662050010363");
+	    sku.setStore("ZSBBB1");
+	
+	    System.out.println(api.checkSku(sku));
 	    
 	    List<TFitting> fittings = new ArrayList<TFitting>();
 	    for(int i=0; i<2; i++){
@@ -68,7 +70,7 @@ public class BaseTestCase extends TestCase {
 	    
 	    
 
-	    System.out.println(api.addFittings(fittings));
+//	    System.out.println(api.addFittings(fittings));
 	
 	}
 

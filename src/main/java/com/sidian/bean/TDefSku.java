@@ -1,5 +1,7 @@
 package com.sidian.bean;
 
+import java.util.Map;
+
 public class TDefSku extends BaseEntity {
 
 	// 条码
@@ -27,12 +29,18 @@ public class TDefSku extends BaseEntity {
 	//备注
 	private String remark;
 	
-	
+	//备注
+	private Map<String, Object> sizeMap;
 
 	// 
 	private String Store;
 
-
+	private String SizeName;
+	
+	private String Clr;
+	
+	private String size;
+	
 	public String getSku() {
 		return Sku;
 	}
@@ -112,6 +120,42 @@ public class TDefSku extends BaseEntity {
 	public void setStore(String store) {
     	Store = store;
     }
+
+	public String getClr() {
+    	return Clr;
+    }
+
+	public void setClr(String clr) {
+    	Clr = clr;
+    }
+
+	public String getSize() {
+    	return size;
+    }
+
+	public void setSize(String size) {
+    	this.size = size;
+    }
+
+	public String getSizeName() {
+    	return SizeName;
+    }
+
+	public void setSizeName(String sizeName) {
+    	SizeName = sizeName;
+    }
+
+	public Map<String, Object> getSizeMap() {
+    	return sizeMap;
+    }
+
+	public void setSizeMap(Map<String, Object> sizeMap) {
+    	this.sizeMap = sizeMap;
+    }
+	
+	
+	
+	
 
 
 }
