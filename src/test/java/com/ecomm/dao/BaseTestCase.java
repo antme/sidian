@@ -72,7 +72,7 @@ public class BaseTestCase extends TestCase {
 
 	    System.out.println(api.addFittings(fittings));
 	    
-	    api.deleteFittings(fittings);
+//	    api.deleteFittings(fittings);
 	
 	}
 
