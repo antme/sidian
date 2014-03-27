@@ -191,4 +191,34 @@ public class ApiServiceImpl implements IApiService {
 		return 0;
 		
 	}
+	
+	
+	public int deleteFittings(List<TFitting> fittings) {
+
+		String sql = "DELETE FROM [sidiandemo].[dbo].[试穿数据表] WHERE 试穿编号 in (";
+
+		if (ApiUtil.isEmpty(fittings)) {
+			throw new ResponseException("试衣记录不能为空");
+		}
+
+		int i = 0;
+		String items = "";
+		for (TFitting fitting : fittings) {
+			String item = "'" + fitting.getFittingCode() + "'";
+			i++;
+			if (i == fittings.size()) {
+				items = items + item + ")";
+			} else {
+				items = items + item + ",";
+			}
+		}
+
+		if (fittings.size() > 0) {
+			sql = sql + items;
+			this.dao.delete(sql);
+		}
+
+		return 0;
+
+	}
 }

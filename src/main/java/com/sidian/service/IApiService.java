@@ -20,4 +20,6 @@ public interface IApiService {
 
 	public int addFittings(List<TFitting> fittings);
 
+	public int deleteFittings(List<TFitting> fittings);
+
 }

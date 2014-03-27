@@ -3,7 +3,7 @@
 <mapper namespace="com.sidian.dao.IMyBatisDao">
 
 	<resultMap type="map" id="map">
-		
+
 	</resultMap>
 
 	<resultMap type="entity" id="entity">
@@ -12,44 +12,25 @@
 
 
 	<select id="countBySql" resultType="int">
-	    ${_parameter}
+		${_parameter}
 	</select>
 
-    <select id="update" >
-        ${_parameter}
-    </select>
-	
+	<update id="update">
+		${_parameter}
+	</update>
+
 	<select id="listBySql" resultMap="map" parameterMap="string">
 		${_parameter}
 	</select>
 
 
-	<select id="findOneByID" resultMap="map">
-		select * from ${table} where
-		id=#{id}
-	</select>
-
-	<select id="findOneByQuery" resultMap="map">
-		select
-		<if test="limitColumns!=null">
-			${limitColumns}
-		</if>
-		<if test="limitColumns==null">
-			*
-		</if>
-		from ${table} where ${queryStr} limit 0,1
-	</select>
-
 	<insert id="insert">
 		${_parameter}
 	</insert>
 
-	<update id="updateById">
-		update ${table} set
-		${updateColumns}
-		where id=#{id}
-	</update>
 
-	
+	<delete id="delete">
+		${_parameter}
+	</delete>
 
 </mapper>

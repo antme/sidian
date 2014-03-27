@@ -77,5 +77,17 @@ public class ApiController extends AbstractController {
 		responseWithData(null, request, response);
 
 	}
+	
+	
+	@RequestMapping("/fittings/delete.do")
+	public void deleteFittings(HttpServletRequest request, HttpServletResponse response) {
+
+		List<TFitting> fittings = parserListJsonParameters(request, false, TFitting.class, "data");
+
+		int rows = apiService.deleteFittings(fittings);
+
+		responseWithData(null, request, response);
+
+	}
 
 }
