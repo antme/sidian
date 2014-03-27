@@ -148,7 +148,7 @@ public class ApiServiceImpl implements IApiService {
 					+  "'" + fitting.getUserName() + "',"
 					+ fitting.getIsRecommend() + ")"; 
 			
-			if (i == fittings.size()) {
+			if (i == insertFittings.size()) {
 				items = items + item + ";";
 			} else {
 				items = items + item + ",";
