@@ -215,6 +215,7 @@ public class ApiServiceImpl implements IApiService {
 
 		if (fittings.size() > 0) {
 			sql = sql + items;
+			System.out.println(sql);
 			this.dao.delete(sql);
 		}
 
