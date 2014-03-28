@@ -46,13 +46,13 @@ public class BaseTestCase extends TestCase {
 		user.setUserName("林映霞");
 		user.setPassword("111111");
 
-//	    api.login(user);
+	    api.login(user);
 	    
 	    TDefSku sku = new TDefSku();
 	    sku.setSku("1662050010363");
 	    sku.setStore("ZSBBB1");
 	
-//	    System.out.println(api.checkSku(sku));
+	    System.out.println(api.checkSku(sku));
 	    
 	    List<TFitting> fittings = new ArrayList<TFitting>();
 	    for(int i=0; i<2; i++){
@@ -72,7 +72,7 @@ public class BaseTestCase extends TestCase {
 
 	    System.out.println(api.addFittings(fittings));
 	    
-//	    api.deleteFittings(fittings);
+	    api.deleteFittings(fittings);
 	
 	}
 

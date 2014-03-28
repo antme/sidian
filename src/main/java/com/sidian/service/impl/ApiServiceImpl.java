@@ -14,6 +14,7 @@ import com.sidian.bean.TDefSku;
 import com.sidian.bean.TDefStore;
 import com.sidian.bean.TFitting;
 import com.sidian.bean.TSysUser;
+import com.sidian.cfg.ConfigurationManager;
 import com.sidian.dao.IMyBatisDao;
 import com.sidian.exception.ResponseException;
 import com.sidian.service.IApiService;
@@ -29,16 +30,16 @@ public class ApiServiceImpl implements IApiService {
 
 	public void list() {
 
-		List<Map<String, Object>> results = dao.listBySql("SELECT TOP 1000 [ID],[Store],[StoreName] FROM [sidiandemo].[dbo].[TDefStore]");
+		List<Map<String, Object>> results = dao.listBySql("SELECT TOP 1000 [ID],[Store],[StoreName] FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TDefStore]");
 
 		// List<Map<String, Object>> results =
-		// dao.listBySql("SELECT TOP 1000 [UserName], [Password] FROM [sidiandemo].[dbo].[TSysUser]");
+		// dao.listBySql("SELECT TOP 1000 [UserName], [Password] FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TSysUser]");
 
 		System.out.println(results);
 	}
 
 	public TSysUser login(TSysUser user) {
-		String sql = "SELECT [UserId],[Store],[UserName] FROM [sidiandemo].[dbo].[试穿用户表] AS a WHERE a.UserName='" + user.getUserName() + "' and a.Password='" + user.getPassword()
+		String sql = "SELECT [UserId],[Store],[UserName] FROM [" + ConfigurationManager.getDbName() + "].[dbo].[试穿用户表] AS a WHERE a.UserName='" + user.getUserName() + "' and a.Password='" + user.getPassword()
 		        + "' and a.Store='" + user.getStore() + "';";
 
 		List<Map<String, Object>> results = dao.listBySql(sql);
@@ -50,10 +51,10 @@ public class ApiServiceImpl implements IApiService {
 	}
 
 	public List<TDefStore> listStore() {
-		List<Map<String, Object>> results = dao.listBySql("SELECT [ID],[Store],[StoreName] FROM [sidiandemo].[dbo].[TDefStore]");
+		List<Map<String, Object>> results = dao.listBySql("SELECT [ID],[Store],[StoreName] FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TDefStore]");
 		List<TDefStore> storeList = ApiUtil.toJsonList(results, TDefStore.class, null);
 
-		List<Map<String, Object>> accountResult = dao.listBySql("SELECT [Store],[UserName] FROM [sidiandemo].[dbo].[试穿用户表]");
+		List<Map<String, Object>> accountResult = dao.listBySql("SELECT [Store],[UserName] FROM [" + ConfigurationManager.getDbName() + "].[dbo].[试穿用户表]");
 		List<TSysUser> accountList = ApiUtil.toJsonList(accountResult, TSysUser.class, null);
 
 		for (TSysUser user : accountList) {
@@ -78,7 +79,7 @@ public class ApiServiceImpl implements IApiService {
 	
 	public List<TDefSku> listSku(){
 		
-		List<Map<String, Object>> results = dao.listBySql("SELECT [Sku], [PName] FROM [sidiandemo].[dbo].[TDefSku]");
+		List<Map<String, Object>> results = dao.listBySql("SELECT [Sku], [PName] FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TDefSku]");
 		return ApiUtil.toJsonList(results, TDefSku.class, null);
 
 	}
@@ -86,7 +87,7 @@ public class ApiServiceImpl implements IApiService {
 	public TDefSku checkSku(TDefSku sku) {
 
 		String store = sku.getStore();
-		String sql = "SELECT a.Sku, a.PName, a.Clr, a.Size, b.Style, b.StyleName, b.Attrib22 as isStarProduct,  b.Attrib23 as isFinger, b.Attrib37 as remark FROM [sidiandemo].[dbo].[TDefSku] AS a left join  [sidiandemo].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='"
+		String sql = "SELECT a.Sku, a.PName, a.Clr, a.Size, b.Style, b.StyleName, b.Attrib22 as isStarProduct,  b.Attrib23 as isFinger, b.Attrib37 as remark FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TDefSku] AS a left join  [" + ConfigurationManager.getDbName() + "].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='"
 		        + sku.getSku() + "';";
 		List<Map<String, Object>> results = dao.listBySql(sql);
 
@@ -97,7 +98,7 @@ public class ApiServiceImpl implements IApiService {
 		sku = (TDefSku) ApiUtil.toEntity(results.get(0), TDefSku.class);
 
 		
-		String sizeSql = "SELECT a.Sku, a.Size, b.SizeName FROM [sidiandemo].[dbo].[TDefSku] AS a left join  [sidiandemo].[dbo].[TDefSize] AS b ON b.Size=a.Size WHERE a.Style='"
+		String sizeSql = "SELECT a.Sku, a.Size, b.SizeName FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TDefSku] AS a left join  [" + ConfigurationManager.getDbName() + "].[dbo].[TDefSize] AS b ON b.Size=a.Size WHERE a.Style='"
 		        + sku.getStyle() + "' and a.Clr ='" + sku.getClr() + "'" + ";";
 		
 		List<Map<String, Object>> skuSizeList = dao.listBySql(sizeSql);
@@ -109,7 +110,7 @@ public class ApiServiceImpl implements IApiService {
 
 		for (TDefSku defsku : skuList) {
 
-			String contSql = "SELECT a.Qty FROM [sidiandemo].[dbo].[TAccStock] AS a WHERE a.Sku='" + defsku.getSku() + "' and a.Store ='" + store + "'" + ";";
+			String contSql = "SELECT a.Qty FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TAccStock] AS a WHERE a.Sku='" + defsku.getSku() + "' and a.Store ='" + store + "'" + ";";
 			List<Map<String, Object>> contSqlResults = dao.listBySql(contSql);
 
 			System.out.println("::::::::::::::::::" + contSqlResults.size());
@@ -127,7 +128,7 @@ public class ApiServiceImpl implements IApiService {
 	}
 	
 	public int addFittings(List<TFitting> fittings){
-		String sql = "INSERT INTO [sidiandemo].[dbo].[试穿数据表](试穿编号,Store,试穿日期,试穿时间,客人编号,年龄,条码,是否成交,意见,选项1价格,选项2颜色,选项3尺码,选项4搭配,选项5款式,选项6其它,UserName,是否推荐) VALUES ";
+		String sql = "INSERT INTO [" + ConfigurationManager.getDbName() + "].[dbo].[试穿数据表](试穿编号,Store,试穿日期,试穿时间,客人编号,年龄,条码,是否成交,意见,选项1价格,选项2颜色,选项3尺码,选项4搭配,选项5款式,选项6其它,UserName,是否推荐) VALUES ";
 		
 		if (ApiUtil.isEmpty(fittings)) {
 			throw new ResponseException("试衣记录不能为空");
@@ -137,7 +138,7 @@ public class ApiServiceImpl implements IApiService {
 		List<TFitting> updateFittings = new ArrayList<TFitting>();
 		
 		for(TFitting fitting: fittings){
-			String selectsql = "SELECT a.试穿编号  FROM [sidiandemo].[dbo].[试穿数据表] AS a WHERE a.试穿编号='" + fitting.getFittingCode()  + "';";
+			String selectsql = "SELECT a.试穿编号  FROM [" + ConfigurationManager.getDbName() + "].[dbo].[试穿数据表] AS a WHERE a.试穿编号='" + fitting.getFittingCode()  + "';";
 			List<Map<String, Object>> results = dao.listBySql(selectsql);
 			
 			if(results.size() > 0){
@@ -187,7 +188,7 @@ public class ApiServiceImpl implements IApiService {
 
 		for(TFitting fitting: updateFittings){
 					
-			 String updaetSql =  "UPDATE [sidiandemo].[dbo].[试穿数据表] SET "
+			 String updaetSql =  "UPDATE [" + ConfigurationManager.getDbName() + "].[dbo].[试穿数据表] SET "
 					 		+  "试穿编号='" + fitting.getFittingCode() + "'," 
 							+  "Store='" + fitting.getStore() + "'," 
 							+  "试穿日期='" + fitting.getFittingDate() + "',"
@@ -218,7 +219,7 @@ public class ApiServiceImpl implements IApiService {
 	
 	public int deleteFittings(List<TFitting> fittings) {
 
-		String sql = "DELETE FROM [sidiandemo].[dbo].[试穿数据表] WHERE 试穿编号 in (";
+		String sql = "DELETE FROM [" + ConfigurationManager.getDbName() + "].[dbo].[试穿数据表] WHERE 试穿编号 in (";
 
 		if (ApiUtil.isEmpty(fittings)) {
 			throw new ResponseException("试衣记录不能为空");
