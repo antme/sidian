@@ -48,9 +48,32 @@ public class ApiServiceImpl implements IApiService {
 		return (TSysUser) ApiUtil.toEntity(results.get(0), TSysUser.class);
 
 	}
+
 	public List<TDefStore> listStore() {
 		List<Map<String, Object>> results = dao.listBySql("SELECT [ID],[Store],[StoreName] FROM [sidiandemo].[dbo].[TDefStore]");
-		return ApiUtil.toJsonList(results, TDefStore.class, null);
+		List<TDefStore> storeList = ApiUtil.toJsonList(results, TDefStore.class, null);
+
+		List<Map<String, Object>> accountResult = dao.listBySql("SELECT [Store],[UserName] FROM [sidiandemo].[dbo].[试穿用户表]");
+		List<TSysUser> accountList = ApiUtil.toJsonList(accountResult, TSysUser.class, null);
+
+		for (TSysUser user : accountList) {
+			for (TDefStore store : storeList) {
+
+				if (store.getStore() != null && user.getStore() != null && store.getStore().equalsIgnoreCase(user.getStore())) {
+
+					if (store.getAccount() == null) {
+						List<String> accounts = new ArrayList<String>();
+						accounts.add(user.getUserName());
+						store.setAccount(accounts);
+					} else {
+						store.getAccount().add(user.getUserName());
+					}
+				}
+			}
+
+		}
+
+		return storeList;
 	}
 	
 	public List<TDefSku> listSku(){
@@ -63,7 +86,7 @@ public class ApiServiceImpl implements IApiService {
 	public TDefSku checkSku(TDefSku sku) {
 
 		String store = sku.getStore();
-		String sql = "SELECT a.Sku, a.PName, a.Clr, a.Size, b.Style, b.StyleName, b.Attrib22 as isStarProduct, b.Attrib37 as remark FROM [sidiandemo].[dbo].[TDefSku] AS a left join  [sidiandemo].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='"
+		String sql = "SELECT a.Sku, a.PName, a.Clr, a.Size, b.Style, b.StyleName, b.Attrib22 as isStarProduct,  b.Attrib23 as isFinger, b.Attrib37 as remark FROM [sidiandemo].[dbo].[TDefSku] AS a left join  [sidiandemo].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='"
 		        + sku.getSku() + "';";
 		List<Map<String, Object>> results = dao.listBySql(sql);
 

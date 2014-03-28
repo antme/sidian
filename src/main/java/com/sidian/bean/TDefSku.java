@@ -19,6 +19,9 @@ public class TDefSku extends BaseEntity {
 	// 是否明星产品
 	private boolean isStarProduct;
 
+	// 是否拇指
+	private boolean isFinger;
+
 	// 样式名
 	private String StyleName;
 
@@ -151,6 +154,14 @@ public class TDefSku extends BaseEntity {
 
 	public void setSizeMap(Map<String, Object> sizeMap) {
     	this.sizeMap = sizeMap;
+    }
+
+	public boolean isFinger() {
+    	return isFinger;
+    }
+
+	public void setFinger(boolean isFinger) {
+    	this.isFinger = isFinger;
     }
 	
 	
