@@ -28,7 +28,7 @@ public class TFitting extends BaseEntity {
 	private int isSaled = 0;
 
 	// 意见
-	private String feedBack;
+	private String feedBack = "";
 
 	// 选项1价格, 0, 1 
 	private int isPriceOk = 0;
