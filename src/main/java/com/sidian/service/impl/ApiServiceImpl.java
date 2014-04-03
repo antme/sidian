@@ -103,6 +103,20 @@ public class ApiServiceImpl implements IApiService {
 		if (results.isEmpty()) {
 			throw new ResponseException("条形码不存在");
 		}
+		
+		
+		Map<String, Object> result = results.get(0);
+		if (result.get("isStarProduct") != null && result.get("isStarProduct").toString().equalsIgnoreCase("1")) {
+			result.put("isStarProduct", true);
+		} else {
+			result.put("isStarProduct", false);
+		}
+
+		if (result.get("isFinger") != null && result.get("isFinger").toString().equalsIgnoreCase("1")) {
+			result.put("isFinger", true);
+		} else {
+			result.put("isFinger", false);
+		}
 
 		sku = (TDefSku) ApiUtil.toEntity(results.get(0), TDefSku.class);
 

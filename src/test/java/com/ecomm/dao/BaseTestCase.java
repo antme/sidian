@@ -48,13 +48,13 @@ public class BaseTestCase extends TestCase {
 
 //	    api.login(user);
 		
-		System.out.println(api.listStore());
+//		System.out.println(api.listStore());
 	    
 	    TDefSku sku = new TDefSku();
 	    sku.setSku("14131467038");
 	    sku.setStore("ZSBBB1");
 	
-//	    System.out.println(api.checkSku(sku));
+	    System.out.println(api.checkSku(sku));
 	    
 	    List<TFitting> fittings = new ArrayList<TFitting>();
 	    for(int i=0; i<2; i++){
