@@ -51,30 +51,39 @@ public class ApiServiceImpl implements IApiService {
 	}
 
 	public List<TDefStore> listStore() {
-		List<Map<String, Object>> results = dao.listBySql("SELECT [ID],[Store],[StoreName] FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TDefStore]");
+		List<Map<String, Object>> results = dao.listBySql("SELECT [ID],[Store],[StoreName] FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TDefStore] WHERE CLOSED=0");
 		List<TDefStore> storeList = ApiUtil.toJsonList(results, TDefStore.class, null);
 
 		List<Map<String, Object>> accountResult = dao.listBySql("SELECT [Store],[UserName] FROM [" + ConfigurationManager.getDbName() + "].[dbo].[试穿用户表]");
 		List<TSysUser> accountList = ApiUtil.toJsonList(accountResult, TSysUser.class, null);
 
+		List<TDefStore> resultsList = new ArrayList<TDefStore>();
+		
+		for (TDefStore store : storeList) {
+			if (store.getStore() != null && store.getStore().toLowerCase().startsWith("z")) {
+				resultsList.add(store);
+			}
+		}
 		for (TSysUser user : accountList) {
-			for (TDefStore store : storeList) {
+			for (TDefStore store : resultsList) {
 
 				if (store.getStore() != null && user.getStore() != null && store.getStore().equalsIgnoreCase(user.getStore())) {
 
-					if (store.getAccount() == null) {
-						List<String> accounts = new ArrayList<String>();
-						accounts.add(user.getUserName());
-						store.setAccount(accounts);
-					} else {
-						store.getAccount().add(user.getUserName());
+					if (store.getStore().toLowerCase().startsWith("z")) {
+						if (store.getAccount() == null) {
+							List<String> accounts = new ArrayList<String>();
+							accounts.add(user.getUserName());
+							store.setAccount(accounts);
+						} else {
+							store.getAccount().add(user.getUserName());
+						}
 					}
 				}
 			}
 
 		}
 
-		return storeList;
+		return resultsList;
 	}
 	
 	public List<TDefSku> listSku(){
@@ -103,7 +112,7 @@ public class ApiServiceImpl implements IApiService {
 		
 		List<Map<String, Object>> skuSizeList = dao.listBySql(sizeSql);
 		
-		System.out.println("===========" + skuSizeList.size());
+		System.out.println(sizeSql);
 		List<TDefSku> skuList = ApiUtil.toJsonList(skuSizeList, TDefSku.class, null);
 
 		Map<String, Object> sizeMap = new HashMap<String, Object>();
@@ -113,7 +122,7 @@ public class ApiServiceImpl implements IApiService {
 			String contSql = "SELECT a.Qty FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TAccStock] AS a WHERE a.Sku='" + defsku.getSku() + "' and a.Store ='" + store + "'" + ";";
 			List<Map<String, Object>> contSqlResults = dao.listBySql(contSql);
 
-			System.out.println("::::::::::::::::::" + contSqlResults.size());
+			System.out.println("::::::::::::::::::" + contSql);
 			if (contSqlResults.size() > 0) {
 				sizeMap.put(defsku.getSizeName(), ApiUtil.getInteger(contSqlResults.get(0).get("Qty"), 0, false));
 			}else{
