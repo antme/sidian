@@ -46,7 +46,7 @@ public class BaseTestCase extends TestCase {
 		user.setUserName("林映霞");
 		user.setPassword("111111");
 
-//	    api.login(user);
+	    api.login(user);
 		
 //		System.out.println(api.listStore());
 	    
@@ -54,7 +54,7 @@ public class BaseTestCase extends TestCase {
 	    sku.setSku("14131467038");
 	    sku.setStore("ZSBBB1");
 	
-	    System.out.println(api.checkSku(sku));
+//	    System.out.println(api.checkSku(sku));
 	    
 	    List<TFitting> fittings = new ArrayList<TFitting>();
 	    for(int i=0; i<2; i++){
