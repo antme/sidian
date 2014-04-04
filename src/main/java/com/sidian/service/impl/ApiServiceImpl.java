@@ -172,10 +172,7 @@ public class ApiServiceImpl implements IApiService {
 			
 		}
 		
-		int i = 0;
-		String items = "";
 		for(TFitting fitting: insertFittings){
-			i++;
 
 			String item = "('" + fitting.getFittingCode() + "'," 
 					+  "'" + fitting.getStore() + "'," 
@@ -195,19 +192,9 @@ public class ApiServiceImpl implements IApiService {
 					+  "'" + fitting.getUserName() + "',"
 					+ fitting.getIsRecommend() + ")"; 
 			
-			if (i == insertFittings.size()) {
-				items = items + item + ";";
-			} else {
-				items = items + item + ",";
-			}
+					this.dao.insert(sql + item + ";");
 		}
-		
-		
-		if (insertFittings.size() > 0) {
-			sql = sql + items;
-			System.out.println(sql);
-			this.dao.insert(sql);
-		}
+
 
 		for(TFitting fitting: updateFittings){
 					

@@ -59,7 +59,7 @@ public class BaseTestCase extends TestCase {
 	    List<TFitting> fittings = new ArrayList<TFitting>();
 	    for(int i=0; i<2; i++){
 	    	TFitting fitting = new TFitting();
-	    	fitting.setFittingCode("" + i);
+	    	fitting.setFittingCode("test" + i);
 	    	fitting.setCustomerCode("00" + i);
 	    	fitting.setUserName("test" + i);
 	    	fitting.setFittingDate(DateUtil.getDateString(new Date()));
@@ -72,7 +72,7 @@ public class BaseTestCase extends TestCase {
 	    
 //	    
 //
-//	    System.out.println(api.addFittings(fittings));
+	    System.out.println(api.addFittings(fittings));
 //	    
 //	    api.deleteFittings(fittings);
 //	
