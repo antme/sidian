@@ -98,6 +98,7 @@ public class ApiServiceImpl implements IApiService {
 		String store = sku.getStore();
 		String sql = "SELECT a.Sku, a.PName, a.Clr, a.Size, b.Style, b.StyleName, b.Attrib22 as isStarProduct,  b.Attrib23 as isFinger, b.SkuPrintMoud as remark, b.SafetySort as description FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TDefSku] AS a left join  [" + ConfigurationManager.getDbName() + "].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='"
 		        + sku.getSku() + "';";
+		System.out.println(sql);
 		List<Map<String, Object>> results = dao.listBySql(sql);
 
 		if (results.isEmpty()) {
@@ -136,7 +137,6 @@ public class ApiServiceImpl implements IApiService {
 			String contSql = "SELECT a.Qty FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TAccStock] AS a WHERE a.Sku='" + defsku.getSku() + "' and a.Store ='" + store + "'" + ";";
 			List<Map<String, Object>> contSqlResults = dao.listBySql(contSql);
 
-			System.out.println("::::::::::::::::::" + contSql);
 			if (contSqlResults.size() > 0) {
 				sizeMap.put(defsku.getSizeName(), ApiUtil.getInteger(contSqlResults.get(0).get("Qty"), 0, false));
 			}else{
