@@ -96,7 +96,7 @@ public class ApiServiceImpl implements IApiService {
 	public TDefSku checkSku(TDefSku sku) {
 
 		String store = sku.getStore();
-		String sql = "SELECT a.Sku, a.PName, a.Clr, a.Size, b.Style, b.StyleName, b.Attrib22 as isStarProduct,  b.Attrib23 as isFinger, b.Attrib37 as remark FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TDefSku] AS a left join  [" + ConfigurationManager.getDbName() + "].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='"
+		String sql = "SELECT a.Sku, a.PName, a.Clr, a.Size, b.Style, b.StyleName, b.Attrib22 as isStarProduct,  b.Attrib23 as isFinger, b.SkuPrintMoud as remark, b.SafetySort as description FROM [" + ConfigurationManager.getDbName() + "].[dbo].[TDefSku] AS a left join  [" + ConfigurationManager.getDbName() + "].[dbo].[TDefStyle] AS b ON b.Style=a.Style WHERE a.Sku='"
 		        + sku.getSku() + "';";
 		List<Map<String, Object>> results = dao.listBySql(sql);
 

@@ -32,6 +32,10 @@ public class TDefSku extends BaseEntity {
 	//备注
 	private String remark;
 	
+	
+	//备注
+	private String description;
+	
 	//备注
 	private Map<String, Object> sizeMap;
 
@@ -163,6 +167,14 @@ public class TDefSku extends BaseEntity {
 	public void setFinger(boolean isFinger) {
     	this.isFinger = isFinger;
     }
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	
 	
 	
